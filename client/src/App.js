@@ -7,15 +7,21 @@ import RightBar from "./components/rightBar/RightBar"
 import Profile from "./pages/profile/Profile"
 import Home from "./pages/home/Home.jsx"
 import "./style.scss"
+import { useContext } from "react"
+import { DarkModeContext } from "./context/darkModeContext"
+import { AuthContext } from "./context/authContext"
 
 function App() {
 
-  const currentUser = true;
+  const { currentUser } = useContext(AuthContext);
+
+  // accessing data via context provider
+  const { darkMode } = useContext(DarkModeContext);
 
   // outlet is a component that renders the next match in a set of matches. It allows nested routes.
   const Layout = () => {
     return (
-      <div className="theme">
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
         <Navbar />
         <div style={{ display: "flex"}}>
           <LeftBar />
