@@ -10,6 +10,7 @@ import "./style.scss"
 import { useContext } from "react"
 import { DarkModeContext } from "./context/darkModeContext"
 import { AuthContext } from "./context/authContext"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
 
@@ -18,19 +19,24 @@ function App() {
   // accessing data via context provider
   const { darkMode } = useContext(DarkModeContext);
 
+  const queryClient = new QueryClient()
+
+
   // outlet is a component that renders the next match in a set of matches. It allows nested routes.
   const Layout = () => {
     return (
-      <div className={`theme-${darkMode ? "dark" : "light"}`}>
-        <Navbar />
-        <div style={{ display: "flex"}}>
-          <LeftBar />
-          <div style={{ flex: 6 }}>
-            <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <Navbar />
+          <div style={{ display: "flex"}}>
+            <LeftBar />
+            <div style={{ flex: 6 }}>
+              <Outlet />
+            </div>
+            <RightBar />
           </div>
-          <RightBar />
         </div>
-      </div>
+      </QueryClientProvider>
     ) 
   };
 
